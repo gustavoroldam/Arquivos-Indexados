@@ -197,12 +197,34 @@ void inclusao_cliente (struct indice idx[], struct paciente pa[], int &cont){
     	}
     }
 }
+
+//3.1 / 3.2 - Busca Binária (Especialização)
+int buscaBi_Especializacao (struct especializacao esp[], struct indice idx[], int cod, int cont){
+	int i = 0, f = cont;
+    int m = (i + f) / 2;
+    for (; f >= i && cod != esp[m].id; m = (i + f) / 2){
+        if (cod > idx[m].codigo){
+            i = m + 1;
+        }
+        else{
+            f = m - 1;
+        }
+    }
+    if (cod == idx[m].codigo){
+        return idx[m].ender;
+    }
+    else{
+        return -1;
+    }
+}
+
 //3 - Inclusão Medico
-void inclusao_medico (struct indice idx[], struct medico med[], int &cont){
+void inclusao_medico (struct indice idx[], struct medico med[], struct indice idxEsp[], struct especializacao esp[], int &cont, int &contEsp){
     for (int cod = 9; cod != 0;){
         cout<<"\n\nInforme o CRM do Médico a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
+        	int endEsp=-1;
         	cont++;
     		med[cont].crm = cod;
     		cout<<"Nome: ";
@@ -215,10 +237,16 @@ void inclusao_medico (struct indice idx[], struct medico med[], int &cont){
     		cin>>med[cont].telefone;
     		cout<<"Valor da consulta: ";
     		cin>>med[cont].valorConsulta;
-    		cout<<"Cidade: ";
-    		cin>>med[cont].cidade;
-    		cout<<"Estado: ";
-    		cin>>med[cont].uf;
+    		cout<<"Especialidade(ID): ";
+    		cin>>med[cont].codEspecializacao;
+    		endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
+    		while(endEsp == -1){
+    			cout<<"Especialidade não encontrada..."<<endl;
+    			cout<<"Digite novamente a especialidade: ";
+    			cin>>med[cont].codEspecializacao;
+    			endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
+			}
+			cout<<"Especialidade: "<<esp[endEsp].nome<<endl;
     		int i;
     		for (i = cont - 1; idx[i].codigo > cod; i--){
         		idx[i+1].codigo = idx[i].codigo;
@@ -231,6 +259,22 @@ void inclusao_medico (struct indice idx[], struct medico med[], int &cont){
     	}
     }
 }
+
+//4 - Buscar Medico por Especialização
+void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont, int codEsp){
+	for(int i=0; i<cont; i++){
+		int end = idx[i].ender;
+		if(codEsp == med[end].codEspecializacao){
+			cout<<"============================="<<endl;
+			cout<<"Nome: "<<med[end].nome<<endl;
+			cout<<"CRM: "<<med[end].crm<<endl;
+			cout<<"Valor da consulta: "<<med[end].valorConsulta<<endl;
+		}
+	}
+	getch();
+}
+
+
 
 int main(){
 	//Configurações Iniciais
