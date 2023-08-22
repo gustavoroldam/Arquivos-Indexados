@@ -1,13 +1,13 @@
 #include <iostream>
 #include <conio.h>
-#include <string.h>
+#include<locale.h>
 using namespace std;
 
 struct indice {
         int codigo;
         int ender;
 };
-//0
+//Paciente = 0
 struct paciente {
 	int cpf;
 	string nome;
@@ -16,14 +16,14 @@ struct paciente {
 	int telefone;
 	string endereco;
 	string cidade;
-	char uf[2];
+	string uf;
 };
-//1
+//Especialização = 1
 struct especializacao {
 	int id;
 	string nome;
 };
-//2
+//Médico = 2
 struct medico {
 	int crm;
 	string nome;
@@ -33,21 +33,15 @@ struct medico {
 	int codEspecializacao;
 	float valorConsulta;
 };
-//3
+//Consulta = 3
 struct consulta {
 	int cpfPaciente;
 	int crmMedico;
 	string data;
 	string horario;
 };
-
-void gerar_dados(paciente, especializacao, medico, consulta, indice, int);
-
-int main(){
-	
-}
-
-void gerar_dados(paciente p[], especializacao e[], medico m[], consulta c[], indice i[][], int cont[]){
+//1 - Leitura de Dados
+void gerar_dados(struct paciente p[], struct especializacao e[], struct medico m[], struct consulta c[], struct indice iPa[], struct indice iEsp[], struct indice iMed[], struct indice iCon[], int cont[]){
 	//Paciente
 	p[0].cpf = 9;
 	p[0].nome = "Gustavo";
@@ -76,14 +70,14 @@ void gerar_dados(paciente p[], especializacao e[], medico m[], consulta c[], ind
 	p[2].cidade = "Londrina";
 	p[2].uf = "PR";
 	
-	i[0][0].codigo = 5;
-	i[0][0].ender = 1;
+	iPa[0].codigo = 5;
+	iPa[0].ender = 1;
 	
-	i[1][0].codigo = 6;
-	i[1][0].ender = 2;
+	iPa[1].codigo = 6;
+	iPa[1].ender = 2;
 	
-	i[2][0].codigo = 9;
-	i[2][0].ender = 0;
+	iPa[2].codigo = 9;
+	iPa[2].ender = 0;
 	
 	//Especialidade
 	e[0].id = 1;
@@ -95,14 +89,14 @@ void gerar_dados(paciente p[], especializacao e[], medico m[], consulta c[], ind
 	e[2].id = 2;
 	e[2].nome = "Ortopedista";
 	
-	i[0][1].codigo = 1;
-	i[0][1].ender = 0;
+	iEsp[0].codigo = 1;
+	iEsp[0].ender = 0;
 	
-	i[1][1].codigo = 2;
-	i[1][1].ender = 2;
+	iEsp[1].codigo = 2;
+	iEsp[1].ender = 2;
 	
-	i[2][1].codigo = 5;
-	i[2][1].ender = 1;
+	iEsp[2].codigo = 5;
+	iEsp[2].ender = 1;
 	
 	//Medico
 	m[0].crm = 5;
@@ -129,18 +123,126 @@ void gerar_dados(paciente p[], especializacao e[], medico m[], consulta c[], ind
 	m[2].codEspecializacao = 5;
 	m[2].valorConsulta = 500;
 	
-	i[0][2].codigo = 4;
-	i[0][2].ender = 2;
+	iMed[0].codigo = 4;
+	iMed[0].ender = 2;
 	
-	i[1][2].codigo = 5;
-	i[1][2].ender = 0;
+	iMed[1].codigo = 5;
+	iMed[1].ender = 0;
 	
-	i[2][2].codigo = 10;
-	i[2][2].ender = 1;
+	iMed[2].codigo = 10;
+	iMed[2].ender = 1;
 	
 	//Consulta
 	c[0].cpfPaciente = 9;
 	c[0].crmMedico = 5;
 	c[0].data = "29/06/2024";
 	c[0].horario = "19:00";
+	
+	c[1].cpfPaciente = 5;
+	c[1].crmMedico = 10;
+	c[1].data = "27/09/2024";
+	c[1].horario = "15:00";
+	
+	c[2].cpfPaciente = 6;
+	c[2].crmMedico = 4;
+	c[2].data = "08/11/2024";
+	c[2].horario = "09:00";
+	
+	iCon[0].codigo = 5;
+	iCon[0].ender = 1;
+	
+	iCon[1].codigo = 6;
+	iCon[1].ender = 2;
+	
+	iCon[2].codigo = 9;
+	iCon[2].ender = 0;
+	
+	cont[0] = 3;
+	cont[1] = 3;
+	cont[2] = 3;
+	cont[3] = 3;
+}
+
+//2 - Inclusão Paciente
+void inclusao_cliente (struct indice idx[], struct paciente pa[], int &cont){
+    for (int cod = 9; cod != 0;){
+        cout<<"\n\nInforme o CPF do Cliente a ser Incluido (0 para Encerrar): ";
+        cin>>cod;
+        if (cod != 0){
+        	cont++;
+    		pa[cont].cpf = cod;
+    		cout<<"Nome: ";
+		    cin>>pa[cont].nome;
+    		cout<<"Idade: ";
+		    cin>>pa[cont].idade;
+    		cout<<"Sexo: ";
+		    cin>>pa[cont].sexo;
+    		cout<<"Telefone: ";
+    		cin>>pa[cont].telefone;
+    		cout<<"Endereço: ";
+    		cin>>pa[cont].endereco;
+    		cout<<"Cidade: ";
+    		cin>>pa[cont].cidade;
+    		cout<<"Estado: ";
+    		cin>>pa[cont].uf;
+    		int i;
+    		for (i = cont - 1; idx[i].codigo > cod; i--){
+        		idx[i+1].codigo = idx[i].codigo;
+        		idx[i+1].ender = idx[i].ender;
+    		}
+    		idx[i+1].codigo = cod;
+    		idx[i+1].ender = cont;
+    		cout << "\n\nInclusao realizada com Sucesso";
+    		getch();
+    	}
+    }
+}
+//3 - Inclusão Medico
+void inclusao_medico (struct indice idx[], struct medico med[], int &cont){
+    for (int cod = 9; cod != 0;){
+        cout<<"\n\nInforme o CRM do Médico a ser Incluido (0 para Encerrar): ";
+        cin>>cod;
+        if (cod != 0){
+        	cont++;
+    		med[cont].crm = cod;
+    		cout<<"Nome: ";
+		    cin>>med[cont].nome;
+    		cout<<"Idade: ";
+		    cin>>med[cont].idade;
+    		cout<<"Sexo: ";
+		    cin>>med[cont].sexo;
+    		cout<<"Telefone: ";
+    		cin>>med[cont].telefone;
+    		cout<<"Valor da consulta: ";
+    		cin>>med[cont].valorConsulta;
+    		cout<<"Cidade: ";
+    		cin>>med[cont].cidade;
+    		cout<<"Estado: ";
+    		cin>>med[cont].uf;
+    		int i;
+    		for (i = cont - 1; idx[i].codigo > cod; i--){
+        		idx[i+1].codigo = idx[i].codigo;
+        		idx[i+1].ender = idx[i].ender;
+    		}
+    		idx[i+1].codigo = cod;
+    		idx[i+1].ender = cont;
+    		cout << "\n\nInclusao realizada com Sucesso";
+    		getch();
+    	}
+    }
+}
+
+int main(){
+	//Configurações Iniciais
+	setlocale(LC_ALL,"");
+	struct paciente pa[30];
+	struct indice indPa[30];
+	struct especializacao esp[30];
+	struct indice indEsp[30];
+	struct medico med[30];
+	struct indice indMed[30];
+	struct consulta con[30];
+	struct indice indCon[30];
+	int cont[4];
+	gerar_dados(pa, esp, med, con, indPa, indEsp, indMed, indCon, cont);
 }
