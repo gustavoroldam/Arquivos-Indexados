@@ -18,12 +18,12 @@ struct paciente {
 	string cidade;
 	string uf;
 };
-//Especializaï¿½ï¿½o = 1
+//Especialização = 1
 struct especializacao {
 	int id;
 	string nome;
 };
-//Mï¿½dico = 2
+//Médico = 2
 struct medico {
 	int crm;
 	string nome;
@@ -167,13 +167,12 @@ void gerar_dados(struct paciente p[], struct especializacao e[], struct medico m
 	cont[3] = 3;
 }
 
-//2 - Inclusï¿½o Paciente
-void inclusao_cliente (struct indice idx[], struct paciente pa[], int &cont){
+//2 - Inclusão Paciente
+void inclusao_Paciente (struct indice idx[], struct paciente pa[], int &cont){
     for (int cod = 9; cod != 0;){
         cout<<"\n\nInforme o CPF do Cliente a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
-        	cont++;
     		pa[cont].cpf = cod;
     		cout<<"Nome: ";
 		    cin>>pa[cont].nome;
@@ -183,7 +182,7 @@ void inclusao_cliente (struct indice idx[], struct paciente pa[], int &cont){
 		    cin>>pa[cont].sexo;
     		cout<<"Telefone: ";
     		cin>>pa[cont].telefone;
-    		cout<<"Endereï¿½o: ";
+    		cout<<"Endereço: ";
     		cin>>pa[cont].endereco;
     		cout<<"Cidade: ";
     		cin>>pa[cont].cidade;
@@ -197,16 +196,17 @@ void inclusao_cliente (struct indice idx[], struct paciente pa[], int &cont){
     		idx[i+1].codigo = cod;
     		idx[i+1].ender = cont;
     		cout << "\n\nInclusao realizada com Sucesso";
+    		cont++;
     		getch();
     	}
     }
 }
 
-//3.1 / 3.2 - Busca Binï¿½ria (Especializaï¿½ï¿½o)
+//3.1 / 3.2 - Busca Binária (Especialização)
 int buscaBi_Especializacao (struct especializacao esp[], struct indice idx[], int cod, int cont){
 	int i = 0, f = cont;
     int m = (i + f) / 2;
-    for (; f >= i && cod != esp[m].id; m = (i + f) / 2){
+    for (; f >= i && cod != idx[m].codigo; m = (i + f) / 2){
         if (cod > idx[m].codigo){
             i = m + 1;
         }
@@ -222,14 +222,13 @@ int buscaBi_Especializacao (struct especializacao esp[], struct indice idx[], in
     }
 }
 
-//3 - Inclusï¿½o Medico
-void inclusao_medico (struct indice idx[], struct medico med[], struct indice idxEsp[], struct especializacao esp[], int &cont, int &contEsp){
+//3 - Inclusão Medico
+void inclusao_Medico (struct indice idx[], struct medico med[], struct indice idxEsp[], struct especializacao esp[], int &cont, int &contEsp){
     for (int cod = 9; cod != 0;){
-        cout<<"\n\nInforme o CRM do Mï¿½dico a ser Incluido (0 para Encerrar): ";
+        cout<<"\n\nInforme o CRM do Médico a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
         	int endEsp=-1;
-        	cont++;
     		med[cont].crm = cod;
     		cout<<"Nome: ";
 		    cin>>med[cont].nome;
@@ -245,7 +244,7 @@ void inclusao_medico (struct indice idx[], struct medico med[], struct indice id
     		cin>>med[cont].codEspecializacao;
     		endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
     		while(endEsp == -1){
-    			cout<<"Especialidade nï¿½o encontrada..."<<endl;
+    			cout<<"Especialidade não encontrada..."<<endl;
     			cout<<"Digite novamente a especialidade: ";
     			cin>>med[cont].codEspecializacao;
     			endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
@@ -259,31 +258,38 @@ void inclusao_medico (struct indice idx[], struct medico med[], struct indice id
     		}
     		idx[i+1].codigo = cod;
     		idx[i+1].ender = cont;
-    		cout << "\n\nInclusao realizada com Sucesso";
+    		cout << "\n\nInclusão realizada com Sucesso";
+    		cont++;
     		getch();
     	}
     }
 }
 
-//4 - Buscar Medico por Especializaï¿½ï¿½o
-void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont, int codEsp){
-	for(int i=0; i<cont; i++){
-		int end = idx[i].ender;
-		if(codEsp == med[end].codEspecializacao){
-			cout<<"============================="<<endl;
-			cout<<"Nome: "<<med[end].nome<<endl;
-			cout<<"CRM: "<<med[end].crm<<endl;
-			cout<<"Valor da consulta: "<<med[end].valorConsulta<<endl;
+//4 - Buscar Medico por Especialização
+void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont){
+	for(int codEsp = 9; codEsp != 0;){
+		cout<<"Digite o código da Especialidade (0 para Encerrar): ";
+		cin>>codEsp;
+		if(codEsp != 0){
+			for(int i=0; i<cont; i++){
+				int end = idx[i].ender;
+				if(codEsp == med[end].codEspecializacao){
+					cout<<"============================="<<endl;
+					cout<<"Nome: "<<med[end].nome<<endl;
+					cout<<"CRM: "<<med[end].crm<<endl;
+					cout<<"Valor da consulta: "<<med[end].valorConsulta<<endl;
+				}
+			}
+			getch();
 		}
 	}
-	getch();
 }
 
-//5.3 / 6.2 - Buscar Nome do MÃ©dico
+//5.3 / 6.2 - Buscar Nome do Méico
 int buscaBi_Medico (struct medico med[], struct indice idx[], int cod, int cont){
 	int i = 0, f = cont;
     int m = (i + f) / 2;
-    for (; f >= i && cod != med[m].crm; m = (i + f) / 2){
+    for (; f >= i && cod != idx[m].codigo; m = (i + f) / 2){
         if (cod > idx[m].codigo){
             i = m + 1;
         }
@@ -306,18 +312,21 @@ void gerar_Consulta (struct indice idxMed[], struct medico med[], int &contMed, 
         cin>>cod;
         if (cod != 0){
         	int endMed=-1;
-        	cont++;
     		con[cont].cpfPaciente = cod;
+    		cout<<"Data: ";
+    		cin>>con[cont].data;
+    		cout<<"Horário: ";
+    		cin>>con[cont].horario;
     		cout<<"CRM: ";
 			cin>>con[cont].crmMedico;
     		endMed = buscaBi_Medico(med, idxMed, con[cont].crmMedico, contMed);
     		while(endMed == -1){
-    			cout<<"MÃ©dico nÃ£o encontrado..."<<endl;
-    			cout<<"Digite novamente o CRM do mÃ©dico: ";
+    			cout<<"Médico não encontrado..."<<endl;
+    			cout<<"Digite novamente o CRM do médico: ";
     			cin>>con[cont].crmMedico;
     			endMed = buscaBi_Medico(med, idxMed, con[cont].crmMedico, contMed);
 			}
-			cout<<"MÃ©dico: "<<med[endMed].nome<<endl;
+			cout<<"Médico: "<<med[endMed].nome<<endl;
     		int i;
     		for (i = cont - 1; idx[i].codigo > cod; i--){
         		idx[i+1].codigo = idx[i].codigo;
@@ -325,39 +334,41 @@ void gerar_Consulta (struct indice idxMed[], struct medico med[], int &contMed, 
     		}
     		idx[i+1].codigo = cod;
     		idx[i+1].ender = cont;
-    		cout << "\n\nInclusao realizada com Sucesso";
+    		cout << "\n\nInclusão realizada com Sucesso";
+    		cont++;
     		getch();
     	}
     }
 }
 
-//6 - Dasabilitar MÃ©dico
+//6 - Dasabilitar Médico
 void desabilitar_Medico (struct indice idx[], struct medico med[], int &cont){
-	for(int cod=9; cod =! 0;){
-		cout<<"Digite o CRM do mÃ©dico: ";
+	for(int cod=9; cod != 0;){
+		cout<<"\nDigite o CRM do médico (0 para Encerrar): ";
 		cin>> cod;
-		if(cod !=0){
+		if(cod !=0 ){
 			int ender;
 			ender = buscaBi_Medico(med, idx, cod, cont);
 
-			if(ender =! -1){
-				cout<<"MÃ©dico "<<med[ender].nome<<" excluido...";
+			if(ender != -1){
+				cout<<"Médico "<<med[ender].nome<<" excluido...";
 				med[ender].status = false;
 			}
 			else{
-				cout<<"MÃ©dico nÃ£o encontrado...";
+				cout<<"Médico não encontrado...";
 			}
 			getch();
 		}
 	}
 }
 
-//7 - ReorganizaÃ§Ã£o MÃ©dico
+//7 - Reorganização Médico
 void reorganizacao_Medico (struct indice idx[], struct medico med[], int &cont){
 	struct medico aux[30];
 	int cont2 = 0;
 
-	for(int i = 0; i<cont; i++){
+	for(int j= 0; j<cont; j++){
+		int i = idx[j].ender;
         if(med[i].status == true){
             idx[cont2].codigo = med[i].crm;
             idx[cont2].ender = cont2;
@@ -366,21 +377,28 @@ void reorganizacao_Medico (struct indice idx[], struct medico med[], int &cont){
             cont2++;
         }
     }
-
+    
 	for(int i= 0; i<cont2; i++){
-		med[i] = aux[i];
+		int ender = idx[i].ender;
+		med[ender] = aux[ender];
 	}
+	cont = cont2;
+	
+	cout<<"Tabela Reorganizada...";
+	getch();
 }
 
-//8 - Calculo de Faturamento da ClÃ­nica
+//8 - Calculo de Faturamento da Clínica
 void faturamento_Clinica (struct indice idx[], struct consulta con[], int &cont, struct indice idxMed[], struct medico med[], int &contMed){
 	float fat=0;
 	for(int i = 0; i < cont; i++){
 		int ender;
 		ender = buscaBi_Medico(med, idxMed, con[i].crmMedico, contMed);
-		fat += (med[ender].valorConsulta) * 0.05;
+		if(ender != -1){
+			fat += med[ender].valorConsulta * 0.05;
+		}
 	}
-	cout<<"A clÃ­nica faturou: "<<fat<<" reais...";
+	cout<<"A clínica faturou: "<<fat<<" reais...";
 	getch();
 }
 
@@ -397,17 +415,55 @@ void calculo_Preco(struct indice idx[], struct medico med[], int &cont){
 		}
 	}
 
-	cout<<"MÃ©dico que cobra mais barato:"<<endl;
+	cout<<"Médico que cobra mais barato:"<<endl;
 	cout<<"Nome: "<<barato.nome<<endl;
-	cout<<"PreÃ§o: "<<barato.valorConsulta<<endl;
-	cout<<"MÃ©dico que cobra mais caro:"<<endl;
+	cout<<"Preço: "<<barato.valorConsulta<<endl;
+	cout<<"Médico que cobra mais caro:"<<endl;
 	cout<<"Nome: "<<caro.nome<<endl;
-	cout<<"PreÃ§o: "<<caro.valorConsulta<<endl;
+	cout<<"Preço: "<<caro.valorConsulta<<endl;
+	getch();
+}
+
+//Bônus - Leitura Exestiva (Todos)
+void leitura_Todos(struct paciente p[], struct especializacao e[], struct medico m[], struct consulta c[], struct indice iPa[], struct indice iEsp[], struct indice iMed[], struct indice iCon[], int cont[]){
+	cout<<"==========PACIENTE=========="<<endl;
+	for(int aux = 0; aux < cont[0]; aux++){
+		int i = iPa[aux].ender;
+		cout<<"CPF: "<<p[i].cpf<<endl;
+		cout<<"Nome: "<<p[i].nome<<endl<<endl;
+	}
+	
+	cout<<"\n===========MÉDICO==========="<<endl;
+	for(int aux = 0; aux < cont[2]; aux++){
+		int i = iMed[aux].ender;
+		cout<<"CRM: "<<m[i].crm<<endl;
+		cout<<"Nome: "<<m[i].nome<<endl;
+		cout<<"Especialidade: "<<m[i].codEspecializacao<<endl;
+		cout<<"Valor da Consulta: "<<m[i].valorConsulta<<endl;
+		cout<<"Status: "<<m[i].status<<endl<<endl;
+	}
+	
+	cout<<"\n=======ESPECIALIZAÇÃO======="<<endl;
+	for(int aux = 0; aux < cont[1]; aux++){
+   		int i = iEsp[aux].ender;
+   		cout<<"Id: "<<e[i].id<<endl;
+   		cout<<"Nome: "<<e[i].nome<<endl<<endl;
+	}
+	
+	cout<<"\n==========CONSULTA=========="<<endl;
+	for(int aux = 0; aux < cont[3]; aux++){
+		int i = iCon[aux].ender;
+		cout<<"CPF: "<<c[i].cpfPaciente<<endl;
+		cout<<"CRM: "<<c[i].crmMedico<<endl;
+		cout<<"Data: "<<c[i].data<<endl;
+		cout<<"Horário: "<<c[i].horario<<endl<<endl;
+	}
+	
 	getch();
 }
 
 int main(){
-	//Configuraï¿½ï¿½es Iniciais
+	//Configurações Iniciais
 	setlocale(LC_ALL,"");
 	struct paciente pa[30];
 	struct indice indPa[30];
@@ -419,4 +475,94 @@ int main(){
 	struct indice indCon[30];
 	int cont[4];
 	gerar_dados(pa, esp, med, con, indPa, indEsp, indMed, indCon, cont);
+	
+	
+	for(bool sair = false; sair == false;){
+		system("cls");
+		int op;
+		cout<<"\tBEM VINDO AO SAÚDE+"<<endl;
+		cout<<"\tEstas são suas opções:"<<endl;
+		cout<<"\t\t1- Incluir Paciente"<<endl;
+		cout<<"\t\t2- Incluir Médico"<<endl;
+		cout<<"\t\t3- Buscar Médico (Especialidade)"<<endl;
+		cout<<"\t\t4- Gerar Consulta"<<endl;
+		cout<<"\t\t5- Desabilitar Médico"<<endl;
+		cout<<"\t\t6- Reorganizar Médicos"<<endl;
+		cout<<"\t\t7- Consultar Faturamento da Clínica"<<endl;
+		cout<<"\t\t8- Consultar Consultas (Caras/Baratas)"<<endl;
+		cout<<"\t\t9- Consultar Tudo"<<endl;
+		cout<<"\t\t10- Sair"<<endl;
+		cout<<"\tDigite a opção desejada: ";
+		cin>>op;
+		switch(op){
+			case 1:{
+				system("cls");
+				inclusao_Paciente(indPa, pa, cont[0]);
+				break;
+			}
+			
+			case 2:{
+				system("cls");
+				inclusao_Medico(indMed, med, indEsp, esp, cont[2], cont[1]);
+				break;
+			}
+			
+			case 3:{
+				system("cls");
+				buscaMed_Esp(indMed, med, cont[2]);
+				break;
+			}
+			
+			case 4:{
+				system("cls");
+				gerar_Consulta(indMed, med, cont[2], pa, con, indCon, cont[3]);
+				break;
+			}
+			
+			case 5:{
+				system("cls");
+				desabilitar_Medico(indMed, med, cont[2]);
+				break;
+			}
+			
+			case 6:{
+				system("cls");
+				reorganizacao_Medico(indMed, med, cont[2]);
+				break;
+			}
+			
+			case 7:{
+				system("cls");
+				faturamento_Clinica(indCon, con, cont[3], indMed, med, cont[2]);
+				break;
+			}
+			
+			case 8:{
+				system("cls");
+				calculo_Preco(indMed, med, cont[2]);
+				break;
+			}
+			
+			case 9:{
+				system("cls");
+				leitura_Todos(pa, esp, med, con, indPa, indEsp, indMed, indCon, cont);
+				break;
+			}
+			
+			case 10:{
+				system("cls");
+				cout<<"Obrigado...";
+				sair = true;
+				getch();
+				break;
+			}
+			
+			default:{
+				system("cls");
+				cout<<"Opção invalida...";
+				getch();
+				break;
+			}
+		}
+	}
 }
