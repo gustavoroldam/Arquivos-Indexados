@@ -189,7 +189,7 @@ void inclusao_Paciente (struct indice idx[], struct paciente pa[], int &cont){
     		cout<<"Estado: ";
     		cin>>pa[cont].uf;
     		int i;
-    		for (i = cont - 1; idx[i].codigo > cod; i--){
+    		for (i = cont - 1; idx[i].codigo > cod && i >= 0; i--){
         		idx[i+1].codigo = idx[i].codigo;
         		idx[i+1].ender = idx[i].ender;
     		}
@@ -252,7 +252,7 @@ void inclusao_Medico (struct indice idx[], struct medico med[], struct indice id
 			cout<<"Especialidade: "<<esp[endEsp].nome<<endl;
 			med[cont].status = true;
     		int i;
-    		for (i = cont - 1; idx[i].codigo > cod; i--){
+    		for (i = cont - 1; idx[i].codigo > cod && i >= 0; i--){
         		idx[i+1].codigo = idx[i].codigo;
         		idx[i+1].ender = idx[i].ender;
     		}
