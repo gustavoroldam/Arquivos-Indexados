@@ -18,12 +18,12 @@ struct paciente {
 	string cidade;
 	string uf;
 };
-//EspecializaÁ„o = 1
+//Especializa√ß√£o = 1
 struct especializacao {
 	int id;
 	string nome;
 };
-//MÈdico = 2
+//M√©dico = 2
 struct medico {
 	int crm;
 	string nome;
@@ -167,7 +167,7 @@ void gerar_dados(struct paciente p[], struct especializacao e[], struct medico m
 	cont[3] = 3;
 }
 
-//2 - Inclus„o Paciente
+//2 - Inclus√£o Paciente
 void inclusao_Paciente (struct indice idx[], struct paciente pa[], int &cont){
     for (int cod = 9; cod != 0;){
         cout<<"\n\nInforme o CPF do Cliente a ser Incluido (0 para Encerrar): ";
@@ -182,14 +182,14 @@ void inclusao_Paciente (struct indice idx[], struct paciente pa[], int &cont){
 		    cin>>pa[cont].sexo;
     		cout<<"Telefone: ";
     		cin>>pa[cont].telefone;
-    		cout<<"EndereÁo: ";
+    		cout<<"Endere√ßo: ";
     		cin>>pa[cont].endereco;
     		cout<<"Cidade: ";
     		cin>>pa[cont].cidade;
     		cout<<"Estado: ";
     		cin>>pa[cont].uf;
     		int i;
-    		for (i = cont - 1; idx[i].codigo > cod; i--){
+    		for (i = cont - 1; idx[i].codigo > cod && i >= 0; i--){
         		idx[i+1].codigo = idx[i].codigo;
         		idx[i+1].ender = idx[i].ender;
     		}
@@ -202,7 +202,7 @@ void inclusao_Paciente (struct indice idx[], struct paciente pa[], int &cont){
     }
 }
 
-//3.1 / 3.2 - Busca Bin·ria (EspecializaÁ„o)
+//3.1 / 3.2 - Busca Bin√°ria (Especializa√ß√£o)
 int buscaBi_Especializacao (struct especializacao esp[], struct indice idx[], int cod, int cont){
 	int i = 0, f = cont;
     int m = (i + f) / 2;
@@ -222,10 +222,10 @@ int buscaBi_Especializacao (struct especializacao esp[], struct indice idx[], in
     }
 }
 
-//3 - Inclus„o Medico
+//3 - Inclus√£o Medico
 void inclusao_Medico (struct indice idx[], struct medico med[], struct indice idxEsp[], struct especializacao esp[], int &cont, int &contEsp){
     for (int cod = 9; cod != 0;){
-        cout<<"\n\nInforme o CRM do MÈdico a ser Incluido (0 para Encerrar): ";
+        cout<<"\n\nInforme o CRM do M√©dico a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
         	int endEsp=-1;
@@ -244,7 +244,7 @@ void inclusao_Medico (struct indice idx[], struct medico med[], struct indice id
     		cin>>med[cont].codEspecializacao;
     		endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
     		while(endEsp == -1){
-    			cout<<"Especialidade n„o encontrada..."<<endl;
+    			cout<<"Especialidade n√£o encontrada..."<<endl;
     			cout<<"Digite novamente a especialidade: ";
     			cin>>med[cont].codEspecializacao;
     			endEsp = buscaBi_Especializacao(esp, idxEsp, med[cont].codEspecializacao, contEsp);
@@ -252,25 +252,26 @@ void inclusao_Medico (struct indice idx[], struct medico med[], struct indice id
 			cout<<"Especialidade: "<<esp[endEsp].nome<<endl;
 			med[cont].status = true;
     		int i;
-    		for (i = cont - 1; idx[i].codigo > cod; i--){
+    		for (i = cont - 1; idx[i].codigo > cod && i >= 0; i--){
         		idx[i+1].codigo = idx[i].codigo;
         		idx[i+1].ender = idx[i].ender;
     		}
     		idx[i+1].codigo = cod;
     		idx[i+1].ender = cont;
-    		cout << "\n\nInclus„o realizada com Sucesso";
+    		cout << "\n\nInclus√£o realizada com Sucesso";
     		cont++;
     		getch();
     	}
     }
 }
 
-//4 - Buscar Medico por EspecializaÁ„o
-void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont){
+//4 - Buscar Medico por Especializa√ß√£o
+void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont, struct especializacao esp[]){
 	for(int codEsp = 9; codEsp != 0;){
-		cout<<"Digite o cÛdigo da Especialidade (0 para Encerrar): ";
+		cout<<"Digite o c√≥digo da Especialidade (0 para Encerrar): ";
 		cin>>codEsp;
 		if(codEsp != 0){
+			cout<<"Especializa√ß√£o: "<< esp[codEsp].nome<<endl;
 			for(int i=0; i<cont; i++){
 				int end = idx[i].ender;
 				if(codEsp == med[end].codEspecializacao){
@@ -285,7 +286,7 @@ void buscaMed_Esp (struct indice idx[], struct medico med[], int &cont){
 	}
 }
 
-//5.3 / 6.2 - Buscar Nome do MÈico
+//5.3 / 6.2 - Buscar Nome do M√©ico
 int buscaBi_Medico (struct medico med[], struct indice idx[], int cod, int cont){
 	int i = 0, f = cont;
     int m = (i + f) / 2;
@@ -315,18 +316,18 @@ void gerar_Consulta (struct indice idxMed[], struct medico med[], int &contMed, 
     		con[cont].cpfPaciente = cod;
     		cout<<"Data: ";
     		cin>>con[cont].data;
-    		cout<<"Hor·rio: ";
+    		cout<<"Hor√°rio: ";
     		cin>>con[cont].horario;
     		cout<<"CRM: ";
 			cin>>con[cont].crmMedico;
     		endMed = buscaBi_Medico(med, idxMed, con[cont].crmMedico, contMed);
     		while(endMed == -1){
-    			cout<<"MÈdico n„o encontrado..."<<endl;
-    			cout<<"Digite novamente o CRM do mÈdico: ";
+    			cout<<"M√©dico n√£o encontrado..."<<endl;
+    			cout<<"Digite novamente o CRM do m√©dico: ";
     			cin>>con[cont].crmMedico;
     			endMed = buscaBi_Medico(med, idxMed, con[cont].crmMedico, contMed);
 			}
-			cout<<"MÈdico: "<<med[endMed].nome<<endl;
+			cout<<"M√©dico: "<<med[endMed].nome<<endl;
     		int i;
     		for (i = cont - 1; idx[i].codigo > cod; i--){
         		idx[i+1].codigo = idx[i].codigo;
@@ -334,35 +335,35 @@ void gerar_Consulta (struct indice idxMed[], struct medico med[], int &contMed, 
     		}
     		idx[i+1].codigo = cod;
     		idx[i+1].ender = cont;
-    		cout << "\n\nInclus„o realizada com Sucesso";
+    		cout << "\n\nInclus√£o realizada com Sucesso";
     		cont++;
     		getch();
     	}
     }
 }
 
-//6 - Dasabilitar MÈdico
+//6 - Dasabilitar M√©dico
 void desabilitar_Medico (struct indice idx[], struct medico med[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o CRM do mÈdico (0 para Encerrar): ";
+		cout<<"\nDigite o CRM do m√©dico (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi_Medico(med, idx, cod, cont);
 
 			if(ender != -1){
-				cout<<"MÈdico "<<med[ender].nome<<" excluido...";
+				cout<<"M√©dico "<<med[ender].nome<<" excluido...";
 				med[ender].status = false;
 			}
 			else{
-				cout<<"MÈdico n„o encontrado...";
+				cout<<"M√©dico n√£o encontrado...";
 			}
 			getch();
 		}
 	}
 }
 
-//7 - ReorganizaÁ„o MÈdico
+//7 - Reorganiza√ß√£o M√©dico
 void reorganizacao_Medico (struct indice idx[], struct medico med[], int &cont){
 	struct medico aux[30];
 	int cont2 = 0;
@@ -388,7 +389,7 @@ void reorganizacao_Medico (struct indice idx[], struct medico med[], int &cont){
 	getch();
 }
 
-//8 - Calculo de Faturamento da ClÌnica
+//8 - Calculo de Faturamento da Cl√≠nica
 void faturamento_Clinica (struct indice idx[], struct consulta con[], int &cont, struct indice idxMed[], struct medico med[], int &contMed){
 	float fat=0;
 	for(int i = 0; i < cont; i++){
@@ -398,7 +399,7 @@ void faturamento_Clinica (struct indice idx[], struct consulta con[], int &cont,
 			fat += med[ender].valorConsulta * 0.05;
 		}
 	}
-	cout<<"A clÌnica faturou: "<<fat<<" reais...";
+	cout<<"A cl√≠nica faturou: "<<fat<<" reais...";
 	getch();
 }
 
@@ -415,16 +416,16 @@ void calculo_Preco(struct indice idx[], struct medico med[], int &cont){
 		}
 	}
 
-	cout<<"MÈdico que cobra mais barato:"<<endl;
+	cout<<"M√©dico que cobra mais barato:"<<endl;
 	cout<<"Nome: "<<barato.nome<<endl;
-	cout<<"PreÁo: "<<barato.valorConsulta<<endl;
-	cout<<"MÈdico que cobra mais caro:"<<endl;
+	cout<<"Pre√ßo: "<<barato.valorConsulta<<endl;
+	cout<<"M√©dico que cobra mais caro:"<<endl;
 	cout<<"Nome: "<<caro.nome<<endl;
-	cout<<"PreÁo: "<<caro.valorConsulta<<endl;
+	cout<<"Pre√ßo: "<<caro.valorConsulta<<endl;
 	getch();
 }
 
-//BÙnus - Leitura Exestiva (Todos)
+//B√¥nus - Leitura Exestiva (Todos)
 void leitura_Todos(struct paciente p[], struct especializacao e[], struct medico m[], struct consulta c[], struct indice iPa[], struct indice iEsp[], struct indice iMed[], struct indice iCon[], int cont[]){
 	cout<<"==========PACIENTE=========="<<endl;
 	for(int aux = 0; aux < cont[0]; aux++){
@@ -433,7 +434,7 @@ void leitura_Todos(struct paciente p[], struct especializacao e[], struct medico
 		cout<<"Nome: "<<p[i].nome<<endl<<endl;
 	}
 	
-	cout<<"\n===========M…DICO==========="<<endl;
+	cout<<"\n===========M√âDICO==========="<<endl;
 	for(int aux = 0; aux < cont[2]; aux++){
 		int i = iMed[aux].ender;
 		cout<<"CRM: "<<m[i].crm<<endl;
@@ -443,7 +444,7 @@ void leitura_Todos(struct paciente p[], struct especializacao e[], struct medico
 		cout<<"Status: "<<m[i].status<<endl<<endl;
 	}
 	
-	cout<<"\n=======ESPECIALIZA«√O======="<<endl;
+	cout<<"\n=======ESPECIALIZA√á√ÉO======="<<endl;
 	for(int aux = 0; aux < cont[1]; aux++){
    		int i = iEsp[aux].ender;
    		cout<<"Id: "<<e[i].id<<endl;
@@ -456,15 +457,15 @@ void leitura_Todos(struct paciente p[], struct especializacao e[], struct medico
 		cout<<"CPF: "<<c[i].cpfPaciente<<endl;
 		cout<<"CRM: "<<c[i].crmMedico<<endl;
 		cout<<"Data: "<<c[i].data<<endl;
-		cout<<"Hor·rio: "<<c[i].horario<<endl<<endl;
+		cout<<"Hor√°rio: "<<c[i].horario<<endl<<endl;
 	}
 	
 	getch();
 }
 
 int main(){
-	//ConfiguraÁıes Iniciais
-	setlocale(LC_ALL,"");
+	//Configura√ß√µes Iniciais
+	setlocale(LC_ALL,"pt-br");
 	struct paciente pa[30];
 	struct indice indPa[30];
 	struct especializacao esp[30];
@@ -480,19 +481,19 @@ int main(){
 	for(bool sair = false; sair == false;){
 		system("cls");
 		int op;
-		cout<<"\tBEM VINDO AO SA⁄DE+"<<endl;
-		cout<<"\tEstas s„o suas opÁıes:"<<endl;
+		cout<<"\tBEM VINDO AO SAUDE+"<<endl;
+		cout<<"\tEstas sao suas opcoes:"<<endl;
 		cout<<"\t\t1- Incluir Paciente"<<endl;
-		cout<<"\t\t2- Incluir MÈdico"<<endl;
-		cout<<"\t\t3- Buscar MÈdico (Especialidade)"<<endl;
+		cout<<"\t\t2- Incluir Medico"<<endl;
+		cout<<"\t\t3- Buscar Medico (Especialidade)"<<endl;
 		cout<<"\t\t4- Gerar Consulta"<<endl;
-		cout<<"\t\t5- Desabilitar MÈdico"<<endl;
-		cout<<"\t\t6- Reorganizar MÈdicos"<<endl;
-		cout<<"\t\t7- Consultar Faturamento da ClÌnica"<<endl;
+		cout<<"\t\t5- Desabilitar Medico"<<endl;
+		cout<<"\t\t6- Reorganizar Medicos"<<endl;
+		cout<<"\t\t7- Consultar Faturamento da Clinica"<<endl;
 		cout<<"\t\t8- Consultar Consultas (Caras/Baratas)"<<endl;
 		cout<<"\t\t9- Consultar Tudo"<<endl;
 		cout<<"\t\t10- Sair"<<endl;
-		cout<<"\tDigite a opÁ„o desejada: ";
+		cout<<"\tDigite a opcao desejada: ";
 		cin>>op;
 		switch(op){
 			case 1:{
@@ -509,7 +510,7 @@ int main(){
 			
 			case 3:{
 				system("cls");
-				buscaMed_Esp(indMed, med, cont[2]);
+				buscaMed_Esp(indMed, med, cont[2], esp);
 				break;
 			}
 			
@@ -559,7 +560,7 @@ int main(){
 			
 			default:{
 				system("cls");
-				cout<<"OpÁ„o invalida...";
+				cout<<"Op√ß√£o invalida...";
 				getch();
 				break;
 			}
