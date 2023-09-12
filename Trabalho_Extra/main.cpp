@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
-#include<locale.h>
+#include <locale.h>
+#include <string.h>
 using namespace std;
 
 struct Indice {
@@ -13,7 +14,7 @@ struct Idiomas {
 	string descricao;
 	bool status;
 };
-// Lições = 1
+// Liï¿½ï¿½es = 1
 struct Licoes {
 	int codigo;
 	int cod_Idioma;
@@ -23,6 +24,7 @@ struct Licoes {
 // Exercicios = 2
 struct Exercicios {
 	int codigo;
+	int codigo_Idioma;
 	int nivel_Dificuldade;
 	string descricao;
 	string resposta_Correta;
@@ -43,7 +45,7 @@ struct Usuarios {
 void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercicios exercicios[], struct Usuarios usuario[], struct Indice iId[], struct Indice iLi[], struct Indice iEx[], struct Indice iUsu[], int cont[]){
 	//Idiomas
 	idioma[0].codigo = 9;
-	idioma[0].descricao = "Inglês";
+	idioma[0].descricao = "Inglï¿½s";
 	idioma[0].status = true;
 	
 	idioma[1].codigo = 5;
@@ -51,7 +53,7 @@ void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercic
 	idioma[1].status = true;
 	
 	idioma[2].codigo = 6;
-	idioma[2].descricao = "Japonês";
+	idioma[2].descricao = "Japonï¿½s";
 	idioma[2].status = true;
 	
 	iId[0].codigo = 5;
@@ -63,20 +65,20 @@ void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercic
 	iId[2].codigo = 9;
 	iId[2].ender = 0;
 	
-	//Lições
+	//Liï¿½ï¿½es
 	licoes[0].codigo = 1;
 	licoes[0].cod_Idioma = 9;
-	licoes[0].total_Niveis = 100;
+	licoes[0].total_Niveis = 2;
 	licoes[0].status = true;
 	
 	licoes[1].codigo = 5;
 	licoes[1].cod_Idioma = 5;
-	licoes[1].total_Niveis = 100;
+	licoes[1].total_Niveis = 5;
 	licoes[1].status = true;
 	
 	licoes[2].codigo = 2;
 	licoes[2].cod_Idioma = 6;
-	licoes[2].total_Niveis = 100;
+	licoes[2].total_Niveis = 1;
 	licoes[2].status = true;
 	
 	iLi[0].codigo = 1;
@@ -88,8 +90,9 @@ void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercic
 	iLi[2].codigo = 5;
 	iLi[2].ender = 1;
 	
-	//Exercícios
+	//Exercï¿½cios
 	exercicios[0].codigo = 9;
+	exercicios[0].codigo_Idioma = 9;
 	exercicios[0].nivel_Dificuldade = 1;
 	exercicios[0].descricao = "I will win the bike ___!";
 	exercicios[0].resposta_Correta = 'race';
@@ -97,13 +100,15 @@ void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercic
 	exercicios[0].status = true;
 	
 	exercicios[1].codigo = 5;
+	exercicios[1].codigo_Idioma = 5;
 	exercicios[1].nivel_Dificuldade = 1;
-	exercicios[1].descricao = "Está frase está correta (S/N) 'soy piloto de avion'";
+	exercicios[1].descricao = "Estï¿½ frase estï¿½ correta (S/N) 'soy piloto de avion'";
 	exercicios[1].resposta_Correta = 'S';
 	exercicios[1].pontuacao = 50;
 	exercicios[1].status = true;
 		
 	exercicios[2].codigo = 6;
+	exercicios[2].codigo_Idioma = 6;
 	exercicios[2].nivel_Dificuldade = 1;
 	exercicios[2].descricao = "Qual a maneira certa de escrever 'cachorro' \n 1- Welpe \n 2-Katze";
 	exercicios[2].resposta_Correta = '1';
@@ -153,7 +158,7 @@ void gerar_dados(struct Idiomas idioma[], struct Licoes licoes[], struct Exercic
 	cont[3] = 3;
 }
 
-// Buscas Binárias
+// Buscas Binï¿½rias
 int buscaBi(struct Indice idx[], int cod, int cont){
 	int i = 0, f = cont;
     int m = (i + f) / 2;
@@ -173,7 +178,7 @@ int buscaBi(struct Indice idx[], int cod, int cont){
     }
 }
 
-// Inclusões
+// Inclusï¿½es
 void inclusao_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont){
     for (int cod = 9; cod != 0;){
         cout<<"\n\nInforme o Codigo do Idioma a ser Incluido (0 para Encerrar): ";
@@ -199,7 +204,7 @@ void inclusao_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont){
 
 void inclusao_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont, struct Idiomas idioma[], struct Indice indIdioma[], int contIdioma){
     for (int cod = 9; cod != 0;){
-        cout<<"\n\nInforme o Codigo da Lição a ser Incluido (0 para Encerrar): ";
+        cout<<"\n\nInforme o Codigo da Liï¿½ï¿½o a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
     		licoes[cont].codigo = cod;
@@ -208,7 +213,7 @@ void inclusao_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont, st
     		
     		licoes[cont].cod_Idioma = buscaBi(indIdioma, licoes[cont].cod_Idioma, contIdioma);
     		while(licoes[cont].cod_Idioma == -1){
-    			cout<<"Idioma não encontrado..."<<endl;
+    			cout<<"Idioma nï¿½o encontrado..."<<endl;
     			cout<<"Digite novamente o codigo do Idioma: ";
     			cin>>licoes[cont].cod_Idioma;
     			licoes[cont].cod_Idioma = buscaBi(indIdioma, licoes[cont].cod_Idioma, contIdioma);
@@ -216,7 +221,7 @@ void inclusao_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont, st
     		
     		cout<<"Idioma: "<<idioma[licoes[cont].cod_Idioma].descricao<<endl;
     		
-    		cout<<"Total de níveis: ";
+    		cout<<"Total de nï¿½veis: ";
     		cin>>licoes[cont].total_Niveis;
     		licoes[cont].status = true;
     		int i;
@@ -233,19 +238,31 @@ void inclusao_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont, st
     }
 }
 
-void inclusao_Exercicios (struct Indice idx[], struct Exercicios exercicio[], int &cont){
+void inclusao_Exercicios (struct Indice idx[], struct Exercicios exercicio[], int &cont, struct Idiomas idioma[], struct Indice indIdioma[], int contIdioma){
     for (int cod = 9; cod != 0;){
-        cout<<"\n\nInforme o Codigo do Exercício a ser Incluido (0 para Encerrar): ";
+        cout<<"\n\nInforme o Codigo do Exercï¿½cio a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
     		exercicio[cont].codigo = cod;
-    		cout<<"Nível de dificuldade: ";
+    		cout<<"Nï¿½vel de dificuldade: ";
     		cin>> exercicio[cont].nivel_Dificuldade;
-    		cout<"Descrição: ";
+			cout<<"Codigo Idioma: ";
+    		cin>> exercicio[cont].codigo_Idioma;
+    		
+    		exercicio[cont].codigo_Idioma = buscaBi(indIdioma, exercicio[cont].codigo_Idioma, contIdioma);
+    		while(exercicio[cont].codigo_Idioma == -1){
+    			cout<<"Idioma nï¿½o encontrado..."<<endl;
+    			cout<<"Digite novamente o codigo do Idioma: ";
+    			cin>>exercicio[cont].codigo_Idioma;
+    			exercicio[cont].codigo_Idioma = buscaBi(indIdioma, exercicio[cont].codigo_Idioma, contIdioma);
+			}
+    		
+    		cout<<"Idioma: "<<idioma[exercicio[cont].codigo_Idioma].descricao<<endl;
+    		cout<<"Descriï¿½ï¿½o: ";
     		cin>> exercicio[cont].descricao;
     		cout<<"Resposta: ";
     		cin>> exercicio[cont].resposta_Correta;
-    		cout<<"Ponuação: ";
+    		cout<<"Ponuaï¿½ï¿½o: ";
     		cin>> exercicio[cont].pontuacao;
     		exercicio[cont].status = true;
     		int i;
@@ -264,7 +281,7 @@ void inclusao_Exercicios (struct Indice idx[], struct Exercicios exercicio[], in
 
 void inclusao_Usuarios (struct Indice idx[], struct Usuarios usuario[], int &cont, struct Idiomas idioma[], struct Indice indIdioma[], int contIdioma){
     for (int cod = 9; cod != 0;){
-        cout<<"\n\nInforme o Codigo do Usuário a ser Incluido (0 para Encerrar): ";
+        cout<<"\n\nInforme o Codigo do Usuï¿½rio a ser Incluido (0 para Encerrar): ";
         cin>>cod;
         if (cod != 0){
     		usuario[cont].codigo = cod;
@@ -275,7 +292,7 @@ void inclusao_Usuarios (struct Indice idx[], struct Usuarios usuario[], int &con
     		
     		usuario[cont].cod_Idioma = buscaBi(indIdioma, usuario[cont].cod_Idioma, contIdioma);
     		while(usuario[cont].cod_Idioma == -1){
-    			cout<<"Idioma não encontrado..."<<endl;
+    			cout<<"Idioma nï¿½o encontrado..."<<endl;
     			cout<<"Digite novamente o codigo do Idioma: ";
     			cin>>usuario[cont].cod_Idioma;
     			usuario[cont].cod_Idioma = buscaBi(indIdioma, usuario[cont].cod_Idioma, contIdioma);
@@ -283,9 +300,9 @@ void inclusao_Usuarios (struct Indice idx[], struct Usuarios usuario[], int &con
     		
     		cout<<"Idioma: "<<idioma[usuario[cont].cod_Idioma].descricao<<endl;
     		
-    		cout<<"Nível Atual: ";
+    		cout<<"Nï¿½vel Atual: ";
     		cin>>usuario[cont].nivel_Atual;
-    		cout<<"Pontuação Total: ";
+    		cout<<"Pontuaï¿½ï¿½o Total: ";
     		cin>>usuario[cont].total_Pontuacao;
     		usuario[cont].status = true;
     		int i;
@@ -302,7 +319,7 @@ void inclusao_Usuarios (struct Indice idx[], struct Usuarios usuario[], int &con
     }
 }
 
-// Exclusão
+// Exclusï¿½o
 void desabilitar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont){
 	for(int cod=9; cod != 0;){
 		cout<<"\nDigite o Codigo do Idioma (0 para Encerrar): ";
@@ -316,7 +333,7 @@ void desabilitar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &con
 				idioma[ender].status = false;
 			}
 			else{
-				cout<<"Lingua não encontrada...";
+				cout<<"Lingua nï¿½o encontrada...";
 			}
 			getch();
 		}
@@ -325,18 +342,18 @@ void desabilitar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &con
 
 void desabilitar_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo da Lição (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo da Liï¿½ï¿½o (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && licoes[ender].status == true){
-				cout<<"Liçao "<<licoes[ender].codigo<<" excluido...";
+				cout<<"Liï¿½ao "<<licoes[ender].codigo<<" excluido...";
 				licoes[ender].status = false;
 			}
 			else{
-				cout<<"lição não encontrada...";
+				cout<<"liï¿½ï¿½o nï¿½o encontrada...";
 			}
 			getch();
 		}
@@ -345,18 +362,18 @@ void desabilitar_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont)
 
 void desabilitar_Exercicios (struct Indice idx[], struct Exercicios exercicio[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo do Exercícios (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo do Exercï¿½cios (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && exercicio[ender].status == true){
-				cout<<"Exercício "<<exercicio[ender].codigo<<" excluido...";
+				cout<<"Exercï¿½cio "<<exercicio[ender].codigo<<" excluido...";
 				exercicio[ender].status = false;
 			}
 			else{
-				cout<<"Exercício não encontrado...";
+				cout<<"Exercï¿½cio nï¿½o encontrado...";
 			}
 			getch();
 		}
@@ -365,25 +382,25 @@ void desabilitar_Exercicios (struct Indice idx[], struct Exercicios exercicio[],
 
 void desabilitar_Usuario (struct Indice idx[], struct Usuarios usuario[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo do Usuário (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo do Usuï¿½rio (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && usuario[ender].status == true){
-				cout<<"Usuário "<<usuario[ender].nome<<" excluido...";
+				cout<<"Usuï¿½rio "<<usuario[ender].nome<<" excluido...";
 				usuario[ender].status = false;
 			}
 			else{
-				cout<<"Usuário não encontrado...";
+				cout<<"Usuï¿½rio nï¿½o encontrado...";
 			}
 			getch();
 		}
 	}
 }
 
-// Recuperação
+// Recuperaï¿½ï¿½o
 void recuperar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont){
 	for(int cod=9; cod != 0;){
 		cout<<"\nDigite o Codigo do Idioma (0 para Encerrar): ";
@@ -397,7 +414,7 @@ void recuperar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont)
 				idioma[ender].status = false;
 			}
 			else{
-				cout<<"Lingua não encontrada...";
+				cout<<"Lingua nï¿½o encontrada...";
 			}
 			getch();
 		}
@@ -406,18 +423,18 @@ void recuperar_Idiomas (struct Indice idx[], struct Idiomas idioma[], int &cont)
 
 void recuperar_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo da Lição (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo da Liï¿½ï¿½o (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && licoes[ender].status != true){
-				cout<<"Liçao "<<licoes[ender].codigo<<" recuperado...";
+				cout<<"Liï¿½ao "<<licoes[ender].codigo<<" recuperado...";
 				licoes[ender].status = false;
 			}
 			else{
-				cout<<"lição não encontrada...";
+				cout<<"liï¿½ï¿½o nï¿½o encontrada...";
 			}
 			getch();
 		}
@@ -426,18 +443,18 @@ void recuperar_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont){
 
 void recuperar_Exercicios (struct Indice idx[], struct Exercicios exercicio[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo do Exercícios (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo do Exercï¿½cios (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && exercicio[ender].status != true){
-				cout<<"Exercício "<<exercicio[ender].codigo<<" recuperado...";
+				cout<<"Exercï¿½cio "<<exercicio[ender].codigo<<" recuperado...";
 				exercicio[ender].status = false;
 			}
 			else{
-				cout<<"Exercício não encontrado...";
+				cout<<"Exercï¿½cio nï¿½o encontrado...";
 			}
 			getch();
 		}
@@ -446,18 +463,18 @@ void recuperar_Exercicios (struct Indice idx[], struct Exercicios exercicio[], i
 
 void recuperar_Usuario (struct Indice idx[], struct Usuarios usuario[], int &cont){
 	for(int cod=9; cod != 0;){
-		cout<<"\nDigite o Codigo do Usuário (0 para Encerrar): ";
+		cout<<"\nDigite o Codigo do Usuï¿½rio (0 para Encerrar): ";
 		cin>> cod;
 		if(cod !=0 ){
 			int ender;
 			ender = buscaBi(idx, cod, cont);
 
 			if(ender != -1 && usuario[ender].status != true){
-				cout<<"Usuário "<<usuario[ender].nome<<" recuperado...";
+				cout<<"Usuï¿½rio "<<usuario[ender].nome<<" recuperado...";
 				usuario[ender].status = false;
 			}
 			else{
-				cout<<"Usuário não encontrado...";
+				cout<<"Usuï¿½rio nï¿½o encontrado...";
 			}
 			getch();
 		}
@@ -470,7 +487,7 @@ void leitura_Idioma (struct Indice idx[], struct Idiomas idioma[], int &cont){
 		int aux = idx[i].ender;
 		cout<<"==================================="<<endl;
 		cout<<"Codigo: "<<idioma[aux].codigo<<endl;
-		cout<<"Descrição: "<<idioma[aux].descricao<<endl;
+		cout<<"Descriï¿½ï¿½o: "<<idioma[aux].descricao<<endl;
 	}
 }
 
@@ -480,7 +497,7 @@ void leitura_Licoes (struct Indice idx[], struct Licoes licoes[], int &cont){
 		cout<<"==================================="<<endl;
 		cout<<"Codigo: "<<licoes[aux].codigo<<endl;
 		cout<<"Codigo do Idioma: "<<licoes[aux].cod_Idioma<<endl;
-		cout<<"Total de Níveis: "<<licoes[aux].total_Niveis<<endl;
+		cout<<"Total de Nï¿½veis: "<<licoes[aux].total_Niveis<<endl;
 	}
 }
 
@@ -489,10 +506,10 @@ void leitura_Exercicios (struct Indice idx[], struct Exercicios exercicio[], int
 		int aux = idx[i].ender;
 		cout<<"==================================="<<endl;
 		cout<<"Codigo: "<<exercicio[aux].codigo<<endl;
-		cout<<"Nível de Dificuldade: "<<exercicio[aux].nivel_Dificuldade<<endl;
+		cout<<"Nï¿½vel de Dificuldade: "<<exercicio[aux].nivel_Dificuldade<<endl;
 		cout<<"Descricao: "<<exercicio[aux].descricao<<endl;
 		cout<<"Resposta: "<<exercicio[aux].resposta_Correta<<endl;
-		cout<<"Pontuação: "<<exercicio[aux].pontuacao<<endl;
+		cout<<"Pontuaï¿½ï¿½o: "<<exercicio[aux].pontuacao<<endl;
 		
 	}
 }
@@ -505,12 +522,12 @@ void leitura_Usuario (struct Indice idx[], struct Usuarios usuario[], int &cont)
 		cout<<"Nome: "<<usuario[aux].nome<<endl;
 		cout<<"Idioma: "<<usuario[aux].cod_Idioma<<endl;
 		cout<<"Nivel Atual: "<<usuario[aux].nivel_Atual<<endl;
-		cout<<"Total_Pontuação: "<<usuario[aux].total_Pontuacao<<endl;
+		cout<<"Total_Pontuaï¿½ï¿½o: "<<usuario[aux].total_Pontuacao<<endl;
 		
 	}
 }
 
-// Reorganização
+// Reorganizaï¿½ï¿½o
 void reorganizacao_Idioma (struct Indice idx[], struct Idiomas idioma[], int &cont){
 	struct Idiomas aux[30];
 	int cont2 = 0;
@@ -611,7 +628,84 @@ void reorganizacao_Usuario (struct Indice idx[], struct Usuarios usuario[], int 
 	getch();
 }
 
+int buscaBi_Licoes (struct Indice idx[], struct Licoes licoes[], int cod, int cont){
+	int i = 0, f = cont;
+    int m = (i + f) / 2;
+    for (; f >= i && cod != licoes[idx[m].codigo].cod_Idioma; m = (i + f) / 2){
+        if (cod > idx[m].codigo){
+            i = m + 1;
+        }
+        else{
+            f = m - 1;
+        }
+    }
+    if (cod == licoes[idx[m].codigo].cod_Idioma && licoes[idx[m].ender].status == true){
+        return idx[m].ender;
+    }
+    else{
+        return -1;
+    }
+}
 
+void realizar_perguntas(struct Indice idx[], struct Usuarios usuario[], int &cont, struct Exercicios exercicio[], struct Indice indExercicio[], int &contExercicio, struct Indice indLicoes[], struct Licoes licoes[], int &contLicoes){
+	leitura_Usuario(idx, usuario, cont);
+	for(int aux = 1; aux != 0;){
+		cout<<"Digite o cÃ³digo do UsuÃ¡rio que vai realizar a lista de perguntas: ";
+		cin>> aux;
+		aux = buscaBi(idx, aux, cont);
+		if(aux != -1){
+			for(int i = 0; i < contExercicio; i++){
+				int j = idx[i].ender;
+				if(exercicio[j].nivel_Dificuldade <= usuario[aux].nivel_Atual && exercicio[j].codigo_Idioma == usuario[aux].cod_Idioma){
+					string resposta;
+					cout<<"\nPergunta: "<<exercicio[j].descricao<<endl;
+					cout<<"Resposta: ";
+					cin>> resposta;
+					int resultado = resposta.compare(exercicio[j].resposta_Correta);
+					if(resultado == 0){
+						cout<<"CORRETO!"<<endl;
+						getch();
+						usuario[aux].total_Pontuacao += exercicio[j].pontuacao;
+						if(usuario[aux].total_Pontuacao >= 100){
+							usuario[aux].nivel_Atual++;
+							usuario[aux].total_Pontuacao = 0;
+							cout<<"NÃ­vel Aumentado!"<<endl;
+							getch();
+						}
+					}
+					else{
+						cout<<"ERRADO!"<<endl;
+						getch();
+						usuario[aux].total_Pontuacao -= exercicio[j].pontuacao*0.1;
+					}
+				}		
+			}
+			int endLicao = buscaBi_Licoes(indLicoes, licoes, usuario[aux].cod_Idioma, contLicoes);
+			if(usuario[aux].nivel_Atual > licoes[endLicao].total_Niveis){
+				cout<<"VAI PEGAR O SEU CERTIFICADO!"<<endl;
+				getch();
+			}
+		}
+		else{
+			cout<<"UsuÃ¡rio incorreto..."<<endl;
+			getch();
+		}
+	}
+}
+
+void leitura_Pontos (struct Indice idx[], struct Usuarios usuario[], int &cont){
+	
+	for(int i = 1; i < cont; i++){
+		int aux = idx[i].ender;
+		cout<<"==================================="<<endl;
+		cout<<"Codigo: "<<usuario[aux].codigo<<endl;
+		cout<<"Nome: "<<usuario[aux].nome<<endl;
+		cout<<"Idioma: "<<usuario[aux].cod_Idioma<<endl;
+		cout<<"Nivel Atual: "<<usuario[aux].nivel_Atual<<endl;
+		cout<<"Total_Pontuaï¿½ï¿½o: "<<usuario[aux].total_Pontuacao<<endl;
+		
+	}
+}
 
 int main(){
 	setlocale(LC_ALL,"");
